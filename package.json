@@ -1,0 +1,21 @@
+{
+  "name": "nasa-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "install-server": "cd backend && npm install",
+    "install-client": "cd frontend && npm install",
+    "install": "concurrently \"npm run install-server\"  \"npm run install-client\"",
+    "server": "npm run watch --prefix backend",
+    "client": "npm start --prefix frontend",
+    "watch": "concurrently \"npm run server\"  \"npm run client\"",
+    "test": "npm run test --prefix backend && npm run test --prefix frontend"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^8.2.1"
+  }
+}

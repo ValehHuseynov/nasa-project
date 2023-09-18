@@ -21,19 +21,23 @@ function getAllLaunches() {
 
 function addNewLaunch(launch) {
   lastLaunchFlightNumber++;
-  launches.set(
-    lastLaunchFlightNumber,
-    Object.assign(launch, {
-      flightNumber: lastLaunchFlightNumber,
-      customers: ["ZTM", "NASA"],
-      upcoming: true,
-      success: true,
-      launchDate: new Date(launch.launchDate),
-    })
-  );
+  const launchBody = Object.assign(launch, {
+    flightNumber: lastLaunchFlightNumber,
+    customers: ["ZTM", "NASA"],
+    upcoming: true,
+    success: true,
+    launchDate: new Date(launch.launchDate),
+  });
+  launches.set(lastLaunchFlightNumber, launchBody);
+  return launchBody;
+}
+
+function deleteLaunch(id) {
+  launches.delete(id);
 }
 
 module.exports = {
   getAllLaunches,
   addNewLaunch,
+  deleteLaunch,
 };

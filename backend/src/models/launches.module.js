@@ -32,12 +32,20 @@ function addNewLaunch(launch) {
   return launchBody;
 }
 
+function existsLaunchWithId(id) {
+  return launches.has(id);
+}
+
 function deleteLaunch(id) {
-  launches.delete(id);
+  const aboured = launches.get(id);
+  aboured.upcoming = false;
+  aboured.success = false;
+  return aboured;
 }
 
 module.exports = {
   getAllLaunches,
   addNewLaunch,
   deleteLaunch,
+  existsLaunchWithId,
 };

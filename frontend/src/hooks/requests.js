@@ -22,7 +22,10 @@ async function httpSubmitLaunch(launch) {
 }
 
 async function httpAbortLaunch(id) {
-  return await fetch(`${API_URL}/launches/${id}`, { method: "DELETE" });
+  const response = await fetch(`${API_URL}/launches/${id}`, {
+    method: "DELETE",
+  });
+  return response.json();
 }
 
 export { httpGetPlanets, httpGetLaunches, httpSubmitLaunch, httpAbortLaunch };

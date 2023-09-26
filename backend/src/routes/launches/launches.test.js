@@ -33,13 +33,55 @@ describe("Test POST /launches", () => {
 
     const requestDate = new Date(completeLaunchData.launchDate).valueOf();
     const responseDate = new Date(response.body.data.launchDate).valueOf();
-
     expect(responseDate).toBe(requestDate);
 
-    expect(response.body).toMatchObject(launchDataWithoutData);
+    expect(response.body.data).toMatchObject(launchDataWithoutData);
   });
 
-  test("It should catch missing required properties", () => {});
+  test("It should catch missing required properties", async () => {
+    const response = await request(app)
+      .post("/launches")
+      .send(launchDataWithoutData)
+      .expect("Content-Type", /json/)
+      .expect(400);
 
-  test("It should catch invalid Dates", () => {});
+    expect(response.body).toStrictEqual({
+      success: false,
+      error: "Missing required launch property",
+    });
+  });
+});
+
+describe("Test Delete /launches/id", () => {
+  test("it shuld response width 200: Deleted", async () => {
+    const response = await request(app)
+      .delete(`/launches/${100}`)
+      .expect("Content-Type", /json/)
+      .expect(200);
+
+    expect(response.body).toStrictEqual({
+      message: "Launch successfully deleted",
+      success: true,
+      aborted: {
+        customers: ["ZTM", "NASA"],
+        destination: "Kepler-442 b",
+        flightNumber: 100,
+        launchDate: "2030-12-26T20:00:00.000Z",
+        mission: "Kepler exploration X",
+        rocket: "Explorer IS1",
+        success: false,
+        upcoming: false,
+      },
+    });
+  });
+  test("it should catch Launch not found", async () => {
+    const response = await request(app)
+      .delete(`/launches/${110}`)
+      .expect("Content-Type", /json/)
+      .expect(404);
+
+    expect(response.body).toStrictEqual({
+      error: "Launch not found",
+    });
+  });
 });
